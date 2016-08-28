@@ -1,0 +1,38 @@
+{
+  "name": "ultronjs",
+  "version": "0.0.6",
+  "description": "Automated testing library built on top of Selenium",
+  "main": "ultron.js",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "selenium-webdriver": "^3.0.0-beta-2"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-watch": "^4.3.9"
+  },
+  "scripts": {
+    "test": "cd examples && node github-search.js && cd ../"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masterakos/ultronjs.git"
+  },
+  "keywords": [
+    "automated",
+    "testing",
+    "testing",
+    "software",
+    "node",
+    "package",
+    "selenium"
+  ],
+  "author": "Kostas Tsalikidis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/masterakos/ultronjs/issues"
+  },
+  "homepage": "https://github.com/masterakos/ultronjs#readme"
+}
