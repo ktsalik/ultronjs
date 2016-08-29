@@ -1,6 +1,6 @@
 {
   "name": "ultronjs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Automated testing library built on top of Selenium",
   "main": "ultron.js",
   "dependencies": {
