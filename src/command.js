@@ -61,7 +61,6 @@ Command.prototype = {
         return new Promise(function(resolve, reject) {
           driver.findElement(webdriver.By.css(args.selector)).then(function(element) {
             element.getText().then(function(text) {
-              console.log(text)
               if (text.indexOf(args.content) > -1) {
                 console.log(chalk.underline("found the right content on " + args.selector) + chalk.green(' [✓]'));
               } else {
