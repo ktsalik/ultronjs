@@ -99,6 +99,9 @@ Command.prototype = {
       case 'wait-title-contains':
         return driver.wait(_seleniumWebdriver2.default.until.titleContains(this.args.text));
         break;
+      case 'wait-milliseconds':
+        return driver.sleep(this.args.delay);
+        break;
     }
   }
 

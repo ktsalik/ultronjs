@@ -21,6 +21,12 @@ const commands = function() {
       }));
     }
   };
+  
+  wait.for = function(delay) {
+    test.commands.push(new Command('wait-milliseconds', {
+      delay: delay
+    }));
+  };
 };
 
 function wait(selector) {

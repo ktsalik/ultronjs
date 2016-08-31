@@ -13,6 +13,7 @@ var t1 = ultron
     this.$(inputSelector).submit();
     this.wait('#ires').toAppear();
     this.click('#ires a[href="https://github.com/"]');
+    this.wait.for(500);
     this.wait.until.titleContains("GitHub");
   })
   .run().then(function() {

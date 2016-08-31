@@ -31,6 +31,12 @@ var commands = function commands() {
       }));
     }
   };
+
+  wait.for = function (delay) {
+    test.commands.push(new _command2.default('wait-milliseconds', {
+      delay: delay
+    }));
+  };
 };
 
 function wait(selector) {

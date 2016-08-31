@@ -26,6 +26,8 @@ ultron
     
     this.wait.until.titleContains('GitHub');
     
+    this.wait.for(1000); // wait for just a sec
+    
   })
   .run()
   .then(function() {
