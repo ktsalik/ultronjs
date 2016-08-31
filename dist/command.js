@@ -76,7 +76,6 @@ Command.prototype = {
         return new Promise(function (resolve, reject) {
           driver.findElement(_seleniumWebdriver2.default.By.css(args.selector)).then(function (element) {
             element.getText().then(function (text) {
-              console.log(text);
               if (text.indexOf(args.content) > -1) {
                 console.log(_chalk2.default.underline("found the right content on " + args.selector) + _chalk2.default.green(' [✓]'));
               } else {

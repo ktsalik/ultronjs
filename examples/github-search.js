@@ -3,7 +3,7 @@ var Ultron = require('../ultron');
 var ultron = new Ultron('chrome');
 
 var t1 = ultron
-  .it("Search for GitHub on Google")
+  .it("should open GitHub via Google")
   .describe(function() { // available commands: open, wait, fill, click, $
     var inputSelector = 'form[role="search"] input[type="text"]';
     

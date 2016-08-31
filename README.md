@@ -9,7 +9,7 @@ var Ultron = require('ultronjs');
 var ultron = new Ultron('chrome'); // open Chrome
 
 ultron
-  .it("open GitHub via Google")
+  .it("should open GitHub via Google")
   .describe(function() {
     
     this.open('http://google.com');
