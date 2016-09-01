@@ -4,9 +4,9 @@ import testUltronSource from './find-source';
 
 const ultron = new Ultron('chrome');
 
-ultron
-  .it("should open GitHub via Google")
-  .describe(testGithub)
+// ultron
+//   .it("should open GitHub via Google")
+//   .describe(testGithub)
 
 ultron
   .it("should find the source-code of itself")

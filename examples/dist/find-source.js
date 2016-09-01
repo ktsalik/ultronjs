@@ -9,9 +9,14 @@ exports.default = function () {
   this.fill('input[name="q"]').with('ultronjs');
   this.$('input[name="q"]').submit();
   this.page.findElement.by.linkText('masterakos/ultronjs').click();
+  this.wait.for(1000);
   this.page.findElement.by.linkText('examples').click();
+  this.wait.for(1000);
+  this.page.findElement.by.linkText('src').click();
+  this.wait.for(1000);
   this.page.findElement.by.linkText('find-source.js').click();
-  this.$('.file').should.haveContent('this.$(\'.file\').should.haveContent'); // this can go on infinite
+  this.wait.for(1000);
+  this.$('.file').should.haveContent('this.$(\'.file\').should.haveContent'); // this is pretty interesting actually
 };
 
 ; // should find the source-code of itself

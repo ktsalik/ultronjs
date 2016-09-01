@@ -16,7 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ultron = new _ultron2.default('chrome');
 
-ultron.it("should open GitHub via Google").describe(_githubSearch2.default);
+// ultron
+//   .it("should open GitHub via Google")
+//   .describe(testGithub)
 
 ultron.it("should find the source-code of itself").describe(_findSource2.default);
 
