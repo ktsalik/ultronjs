@@ -13,6 +13,14 @@ var _test = require('./test');
 
 var _test2 = _interopRequireDefault(_test);
 
+var _logger = require('./logger');
+
+var _logger2 = _interopRequireDefault(_logger);
+
+var _async = require('async');
+
+var _async2 = _interopRequireDefault(_async);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -21,8 +29,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 * @constructor
 */
 var Ultron = function Ultron(browser) {
+  this.logger = new _logger2.default();
   this.browser = browser;
   this.driver = new _seleniumWebdriver2.default.Builder().forBrowser(this.browser).build();
+  this.tests = [];
 };
 
 Ultron.prototype = {
@@ -33,8 +43,34 @@ Ultron.prototype = {
   * @return {Test}
   */
   it: function it(description) {
-    return new _test2.default(description, this.driver);
+    var test = new _test2.default(description, this.driver, this.logger);
+    this.tests.push(test);
+    return test;
   },
+
+  start: function start(options) {
+    var _this = this;
+
+    options = options || {};
+    options.times = options.times || 'once';
+
+    return new Promise(function (resolve, reject) {
+      if (_this.tests.length > 0) {
+        var series = [];
+        _this.tests.forEach(function (test) {
+          series.push(function (next) {
+            test.run().then(next);
+          });
+        });
+        _async2.default.series(series, function () {
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
+  },
+
 
   /**
   * @method end - Ends test session and closes browser

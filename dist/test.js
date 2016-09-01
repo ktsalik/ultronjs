@@ -8,20 +8,31 @@ var _commandsWrapper = require('./commands-wrapper');
 
 var _commandsWrapper2 = _interopRequireDefault(_commandsWrapper);
 
+var _chalk = require('chalk');
+
+var _chalk2 = _interopRequireDefault(_chalk);
+
+var _async = require('async');
+
+var _async2 = _interopRequireDefault(_async);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
 * @class Test
 * @param {string} description - Test description
 * @param {object} driver
+* @param {object} logger
 * @constructor
 **/
-var Test = function Test(description, driver) {
+var Test = function Test(description, driver, logger) {
   this.description = description;
   this.driver = driver;
   this.fn = null;
   this.commands = [];
   _commandsWrapper2.default.apply(this);
+  this.logger = logger;
+  this.assertions = [];
 };
 
 Test.prototype = {
@@ -41,16 +52,29 @@ Test.prototype = {
   * @return {Promise}
   */
   run: function run() {
-    var test = this;
+    var _this = this;
+
     return new Promise(function (resolve, reject) {
-      test.fn.apply(test);
-      var lastCommand = test.commands[0].exec(test.driver);
-      for (var i = 1; i < test.commands.length; i++) {
-        lastCommand = lastCommand.then(function (i) {
-          return test.commands[i].exec(test.driver);
-        }(i));
-      }
-      lastCommand.then(resolve);
+      _this.logger.testStart(_this);
+      _this.fn.apply(_this);
+      var series = [];
+      _this.commands.forEach(function (command) {
+        series.push(function (next) {
+          command.exec(_this.driver).then(function () {
+            next();
+          }).catch(function () {
+            next('stop');
+          });
+        });
+      });
+      _async2.default.series(series, function (err) {
+        if (!err) {
+          _this.logger.testFinished(_this);
+        } else {
+          _this.logger.testStopped(_this);
+        }
+        resolve();
+      });
     });
   }
 

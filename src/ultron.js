@@ -1,5 +1,7 @@
 import webdriver from 'selenium-webdriver';
 import Test from './test'
+import Logger from './logger'
+import async from 'async';
 
 /**
 * @class Ultron
@@ -7,8 +9,10 @@ import Test from './test'
 * @constructor
 */
 const Ultron = function(browser) {
+  this.logger = new Logger();
   this.browser = browser;
   this.driver = new webdriver.Builder().forBrowser(this.browser).build();
+  this.tests = [];
 }
 
 Ultron.prototype = {
@@ -19,7 +23,30 @@ Ultron.prototype = {
   * @return {Test}
   */
   it: function(description) {
-    return new Test(description, this.driver);
+    var test = new Test(description, this.driver, this.logger);
+    this.tests.push(test);
+    return test;
+  },
+  
+  start(options) {
+    options = options || {};
+    options.times = options.times || 'once';
+    
+    return new Promise((resolve, reject) => {
+      if (this.tests.length > 0) {
+        var series = [];
+        this.tests.forEach(test => {
+          series.push(function(next) {
+            test.run().then(next);
+          });
+        });
+        async.series(series, function() {
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
   },
   
   /**

@@ -1,17 +1,22 @@
 import commands from './commands-wrapper';
+import chalk from 'chalk';
+import async from 'async';
 
 /**
 * @class Test
 * @param {string} description - Test description
 * @param {object} driver
+* @param {object} logger
 * @constructor
 **/
-const Test = function(description, driver) {
+const Test = function(description, driver, logger) {
   this.description = description;
   this.driver = driver;
   this.fn = null;
   this.commands = [];
   commands.apply(this);
+  this.logger = logger;
+  this.assertions = [];
 };
 
 Test.prototype = {
@@ -31,16 +36,29 @@ Test.prototype = {
   * @return {Promise}
   */
   run: function() {
-    var test = this;
-    return new Promise(function(resolve, reject) {
-      test.fn.apply(test);
-      var lastCommand = test.commands[0].exec(test.driver);
-      for (var i = 1; i < test.commands.length; i++) {
-        lastCommand = lastCommand.then((function(i) {
-          return test.commands[i].exec(test.driver);
-        })(i));
-      }
-      lastCommand.then(resolve);
+    return new Promise((resolve, reject) => {
+      this.logger.testStart(this);
+      this.fn.apply(this);
+      var series = [];
+      this.commands.forEach(command => {
+        series.push(next => {
+          command.exec(this.driver)
+            .then(() => {
+              next();
+            })
+            .catch(() => {
+              next('stop');
+            });
+        });
+      });
+      async.series(series, err => {
+        if (!err) {
+          this.logger.testFinished(this);
+        } else {
+          this.logger.testStopped(this);
+        }
+        resolve();
+      });
     });
   }
   

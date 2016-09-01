@@ -21,9 +21,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 * @constructor
 **/
 
-var Command = function Command(type, args) {
+var Command = function Command(type, args, test) {
   this.type = type;
   this.args = args;
+  this.test = test;
 };
 
 Command.prototype = {
@@ -40,7 +41,7 @@ Command.prototype = {
         return driver.get(this.args.url);
         break;
       case 'wait-element':
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
           driver.wait(_seleniumWebdriver2.default.until.elementLocated(_seleniumWebdriver2.default.By.css(_this.args.selector))).then(function () {
             driver.wait(_seleniumWebdriver2.default.until.elementIsVisible(driver.findElement(_seleniumWebdriver2.default.By.css(_this.args.selector)))).then(resolve);
           });
@@ -53,17 +54,24 @@ Command.prototype = {
         return driver.findElement(_seleniumWebdriver2.default.By.css(this.args.selector)).click();
         break;
       case 'check-element-count':
-        var args = this.args;
-        return new Promise(function (resolve, reject) {
-          driver.findElements(_seleniumWebdriver2.default.By.css(args.selector)).then(function (elements) {
-            if (typeof args.expected == 'number') {
-              // TODO
-            } else if (typeof args.expected == 'string') {
-              if (args.expected == 'many') {
+        return new Promise(function (resolve) {
+          driver.findElements(_seleniumWebdriver2.default.By.css(_this.args.selector)).then(function (elements) {
+            if (typeof _this.args.expected == 'number') {
+              if (elements.length == _this.args.expected) {
+                _this.test.assertions.push(1);
+                _this.test.logger.assertionPassed('found ' + _this.args.expected + ' {' + _this.args.selector + '} elements');
+              } else {
+                _this.test.assertions.push(-1);
+                _this.test.logger.assertionFailed('could not find ' + _this.args.expected + ' {' + _this.args.selector + '} elements');
+              }
+            } else if (typeof _this.args.expected == 'string') {
+              if (_this.args.expected == 'many') {
                 if (elements.length > 1) {
-                  console.log(_chalk2.default.underline("found some " + args.selector) + _chalk2.default.green(' [✓]'));
+                  _this.test.assertions.push(1);
+                  _this.test.logger.assertionPassed('found ' + _this.args.expected + ' {' + _this.args.selector + '}');
                 } else {
-                  console.log(_chalk2.default.underline("could not found " + args.selector) + _chalk2.default.red(' [x]'));
+                  _this.test.assertions.push(-1);
+                  _this.test.logger.assertionFailed('element {' + _this.args.selector + '} not found');
                 }
               }
             }
@@ -72,22 +80,25 @@ Command.prototype = {
         });
         break;
       case 'check-element-content':
-        var args = this.args;
-        return new Promise(function (resolve, reject) {
-          driver.findElement(_seleniumWebdriver2.default.By.css(args.selector)).then(function (element) {
+        return new Promise(function (resolve) {
+          driver.findElement(_seleniumWebdriver2.default.By.css(_this.args.selector)).then(function (element) {
             element.getText().then(function (text) {
-              if (text.indexOf(args.content) > -1) {
-                console.log(_chalk2.default.underline("found the right content on " + args.selector) + _chalk2.default.green(' [✓]'));
+              if (text.indexOf(_this.args.content) > -1) {
+                _this.test.assertions.push(1);
+                _this.test.logger.assertionPassed('element {' + _this.args.selector + '} has content "' + _this.args.content + '"');
               } else {
-                console.log(_chalk2.default.underline("could not find {" + args.content + "} on " + args.selector) + _chalk2.default.red(' [x]'));
+                _this.test.assertions.push(-1);
+                _this.test.logger.assertionFailed('expected content "' + _this.args.content + '" into element {' + _this.args.selector + '} but not found');
               }
-              resolve();
             });
-          });
+          }).catch(function () {
+            _this.test.assertions.push(-1);
+            _this.test.logger.assertionFailed('expected content "{' + _this.args.content + '}" into element {' + _this.args.selector + '} but element {' + _this.args.selector + '} not found');
+          }).finally(resolve);
         });
         break;
       case 'submit-form':
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
           driver.findElement(_seleniumWebdriver2.default.By.css(_this.args.selector)).then(function (element) {
             element.submit().then(resolve);
           });
@@ -101,6 +112,35 @@ Command.prototype = {
         break;
       case 'wait-milliseconds':
         return driver.sleep(this.args.delay);
+        break;
+      case 'page-title-should-contain':
+        return new Promise(function (resolve) {
+          driver.getTitle().then(function (title) {
+            if (title.indexOf(_this.args.text) > -1) {
+              _this.test.assertions.push(1);
+              _this.test.logger.assertionPassed('title content ok');
+            } else {
+              _this.test.assertions.push(-1);
+              _this.test.logger.assertionFailed('expected content "' + _this.args.text + '" into page\'s title but not found');
+            }
+            resolve();
+          });
+        });
+        break;
+      case 'find-element-by-text-and-click':
+        return new Promise(function (resolve, reject) {
+          driver.findElement(_seleniumWebdriver2.default.By.partialLinkText(_this.args.text)).then(function (element) {
+            element.click().then(resolve);
+          }).catch(function () {
+            _this.test.logger.assertionFailed('expected to find link with content "' + _this.args.text + '" but not found');
+            reject();
+          });
+        });
+        break;
+      default:
+        return new Promise(function (resolve) {
+          return resolve;
+        });
         break;
     }
   }
