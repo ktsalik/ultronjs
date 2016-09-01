@@ -2,6 +2,8 @@
 
 Ultron is a JavaScript/NodeJS library for creating automated tests running on the browser of your choice.
 
+<img src="https://s13.postimg.org/6ktgvswrb/ultronjs_example.png">
+
 ## Example
 
 ````javascript
