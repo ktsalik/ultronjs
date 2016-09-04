@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/v/ultronjs.svg)](https://www.npmjs.com/package/ultronjs) [![npm](https://img.shields.io/npm/dt/ultronjs.svg)](https://www.npmjs.com/package/ultronjs) <img src="https://img.shields.io/badge/syntax-easy-brightgreen.svg"> <img src="https://img.shields.io/badge/examples-ready-brightgreen.svg"> <img src="https://img.shields.io/badge/docs-in progress-orange.svg">
+
 # UltronJS
 
 Ultron is a JavaScript/NodeJS library for creating automated tests running on the browser of your choice.
