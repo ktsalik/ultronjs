@@ -21,6 +21,10 @@ var _async = require('async');
 
 var _async2 = _interopRequireDefault(_async);
 
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -52,22 +56,70 @@ Ultron.prototype = {
     var _this = this;
 
     options = options || {};
-    options.times = options.times || 'once';
+    options.run = options.run || 'once';
+    options.delay = options.delay || 5000;
+    options.watch = options.watch || [];
+    options.recursive = options.recursive || false;
 
     return new Promise(function (resolve, reject) {
-      if (_this.tests.length > 0) {
-        var series = [];
-        _this.tests.forEach(function (test) {
-          series.push(function (next) {
-            test.run().then(next);
-          });
+
+      if (!_this.tests.length) resolve();
+
+      var series = [];
+      _this.tests.forEach(function (test) {
+        series.push(function (next) {
+          test.run().then(next);
         });
-        _async2.default.series(series, function () {
-          resolve();
-        });
-      } else {
-        resolve();
-      }
+      });
+
+      var running;
+      var repeatAfter;
+
+      (function () {
+        switch (options.run) {
+          case 'once':
+            _async2.default.series(series, function () {
+              resolve();
+            });
+            break;
+          case 'repeat':
+            var runSeries = function runSeries() {
+              _async2.default.series(series, function () {
+                setTimeout(runSeries, options.delay);
+              });
+            };
+
+            runSeries();
+            break;
+          case 'watch':
+            running = false;
+            repeatAfter = false;
+
+            options.watch.forEach(function (file) {
+              _fs2.default.watch(file, { persistent: true, recursive: options.recursive }, function () {
+                if (running) {
+                  repeatAfter = true;
+                  return;
+                } else {
+                  running = true;
+                  _async2.default.series(series, function () {
+                    if (repeatAfter) {
+                      setTimeout(function () {
+                        _async2.default.series(series, function () {
+                          running = false;
+                          repeatAfter = false;
+                        });
+                      }, options.delay);
+                    } else {
+                      running = false;
+                    }
+                  });
+                }
+              });
+            });
+            break;
+        }
+      })();
     });
   },
 

@@ -2,6 +2,7 @@ import webdriver from 'selenium-webdriver';
 import Test from './test'
 import Logger from './logger'
 import async from 'async';
+import fs from 'fs';
 
 /**
 * @class Ultron
@@ -30,21 +31,62 @@ Ultron.prototype = {
   
   start(options) {
     options = options || {};
-    options.times = options.times || 'once';
+    options.run = options.run || 'once';
+    options.delay = options.delay || 5000;
+    options.watch = options.watch || [];
+    options.recursive = options.recursive || false;
     
     return new Promise((resolve, reject) => {
-      if (this.tests.length > 0) {
-        var series = [];
-        this.tests.forEach(test => {
-          series.push(function(next) {
-            test.run().then(next);
+      
+      if (!this.tests.length) resolve();
+      
+      var series = [];
+      this.tests.forEach(test => {
+        series.push(function(next) {
+          test.run().then(next);
+        });
+      });
+      
+      switch (options.run) {
+        case 'once':
+          async.series(series, function() {
+            resolve();
           });
-        });
-        async.series(series, function() {
-          resolve();
-        });
-      } else {
-        resolve();
+          break;
+        case 'repeat':
+          function runSeries() {
+            async.series(series, function() {
+              setTimeout(runSeries, options.delay);
+            });
+          }
+          runSeries();
+          break;
+        case 'watch':
+          var running = false;
+          var repeatAfter = false;
+          options.watch.forEach(function(file) {
+            fs.watch(file, { persistent: true, recursive: options.recursive }, function() {
+              if (running) {
+                repeatAfter = true;
+                return;
+              } else {
+                running = true;
+                async.series(series, function() {
+                  if (repeatAfter) {
+                    setTimeout(function() {
+                      async.series(series, function() {
+                        running = false;
+                        repeatAfter = false;
+                      });
+                    }, options.delay);
+                  } else {
+                    running = false;
+                  }
+                }); 
+              }
+            });
+          });
+          break;
       }
     });
   },

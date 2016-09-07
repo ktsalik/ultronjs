@@ -28,6 +28,7 @@ Test.prototype = {
   **/
   describe: function(fn) {
     this.fn = fn;
+    this.fn.apply(this);
     return this;
   },
   
@@ -38,7 +39,6 @@ Test.prototype = {
   run: function() {
     return new Promise((resolve, reject) => {
       this.logger.testStart(this);
-      this.fn.apply(this);
       var series = [];
       this.commands.forEach(command => {
         series.push(next => {
