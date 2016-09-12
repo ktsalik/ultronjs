@@ -50,7 +50,7 @@ $ npm install ultronjs
 $ npm i -D ultronjs
 ````
 
-You also need to download and include in your PATH the driver of the browser of your choice in order to use Ultron.
+**You also need to download** and include in your PATH the driver of the browser of your choice in order to use Ultron.
 #### Drivers downloads
 * Chrome: http://chromedriver.storage.googleapis.com/index.html
 * Firefox: https://github.com/mozilla/geckodriver/releases/
