@@ -61,16 +61,17 @@ $ npm i -D ultronjs
 ## API Reference
 
 Table of Contents
-* [open](#test.open)
+* [open](#open)
 * [wait](#wait)
 * [fill](#fill)
 * [click](#click)
-* [$][#$](#$)
+* [$](#$)
 * [page](#page)
 
 #### Open
 `Test.open(url)`
 * ````url```` {string} - The url to open in the browser.
+
 ##### Example
 ````javascript
 new require('ultronjs')
@@ -86,8 +87,10 @@ new require('ultronjs')
 #### Wait
 `Test.wait(selector)`
 * ````selector```` {string} - CSS selector of the target element.
+
 ##### methods
 `toAppear()` - Waits until the element appears.
+
 ##### Example
 ````javascript
 new require('ultronjs')
@@ -158,6 +161,7 @@ new require('ultronjs')
 #### Click
 `Test.Click(selector)`
 * ````selector```` {string} - CSS selector of the target element.
+
 ##### Example
 ````javascript
 new require('ultronjs')
