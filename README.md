@@ -240,15 +240,10 @@ new require('ultronjs')
 ##### Example
 ````javascript
 new require('ultronjs')
-  .it("Should submit the search form")
+  .it("Should find 4 links to the page")
   .describe(function() {
       
-      // submit by selecting the form
-      this.$('form').submit();
-      // or by selecting an input inside the form
-      this.$('input[name="q"]').submit();
-      // or even by selecting the submit button
-      this.$('button[type="submit"]').submit();
+      this.$('a').should.count(4);
       
     })
 ````
