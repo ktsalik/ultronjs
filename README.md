@@ -65,7 +65,7 @@ Table of Contents
 * [wait](#wait)
 * [fill](#fill)
 * [click](#click)
-* [$](#$)
+* [$][#$](#$)
 * [page](#page)
 
 #### Open
@@ -139,8 +139,10 @@ new require('ultronjs')
 #### Fill
 `Test.fill(selector)`
 * ````selector```` {string} - CSS selector of the target element.
+
 ##### methods
 `with(text)`
+
 ##### Example
 ````javascript
 new require('ultronjs')
@@ -170,9 +172,11 @@ new require('ultronjs')
 <br>
 #### Page
 `Test.page.title`
+
 ##### methods
 `should.contain(text)`
 * text {string}
+
 ##### Example
 ````javascript
 new require('ultronjs')
@@ -187,8 +191,10 @@ new require('ultronjs')
 <br>
 `findElement.by.linkText(text)`
 * text {string}
+
 ##### methods
 `click()`
+
 ##### Example
 ````javascript
 new require('ultronjs')
@@ -204,8 +210,10 @@ new require('ultronjs')
 #### $
 `Test.$(selector)`
 * selector {string} - Css selector of the target element.
+
 ##### methods
 `submit()`
+
 ##### Example
 ````javascript
 new require('ultronjs')
