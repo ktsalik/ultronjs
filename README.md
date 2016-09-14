@@ -78,9 +78,9 @@ new require('ultronjs')
   .it("Should open GitHub")
   .describe(function() {
     
-      this.open('http://github.com');
-      
-    })
+    this.open('http://github.com');
+    
+  })
 ````
 
 <br>
@@ -97,9 +97,9 @@ new require('ultronjs')
   .it("Should wait for the search input")
   .describe(function() {
     
-      this.wait('#search-input').toAppear();
-      
-    })
+    this.wait('#search-input').toAppear();
+    
+  })
 ````
 <br>
 `until.titleIs(text)` - Waits until the title matches the given text.
@@ -109,9 +109,9 @@ new require('ultronjs')
   .it("Should wait until the page title contains the word GitHub")
   .describe(function() {
     
-      this.wait.until.titleIs('GitHub');
-      
-    })
+    this.wait.until.titleIs('GitHub');
+    
+  })
 ````
 <br>
 `until.titleContains(text)` - Waits until the title of the page contains the given text.
@@ -121,9 +121,9 @@ new require('ultronjs')
   .it("Should wait until the page title is GitHub")
   .describe(function() {
     
-      this.wait.until.titleContains('GitHub');
-      
-    })
+    this.wait.until.titleContains('GitHub');
+    
+  })
 ````
 <br>
 `for(milliseconds)` - Waits for the given time in milliseconds.
@@ -133,9 +133,9 @@ new require('ultronjs')
   .it("Should wait for 2 seconds")
   .describe(function() {
     
-      this.wait.for(2000);
-      
-    })
+    this.wait.for(2000);
+    
+  })
 ````
 
 <br>
@@ -152,9 +152,9 @@ new require('ultronjs')
   .it("Should fill GitHub search input with `UltronJS`")
   .describe(function() {
     
-      this.fill('input[name="q"]').with('UltronJS');
-      
-    })
+    this.fill('input[name="q"]').with('UltronJS');
+    
+  })
 ````
 
 <br>
@@ -168,9 +168,9 @@ new require('ultronjs')
   .it("Should click link to GitHub")
   .describe(function() {
       
-      this.click('#ires a[href="https://github.com/"]');
-      
-    })
+    this.click('#ires a[href="https://github.com/"]');
+    
+  })
 ````
 
 <br>
@@ -187,9 +187,9 @@ new require('ultronjs')
   .it("Should find the word GitHub in page's title")
   .describe(function() {
       
-      this.page.title.should.contain('GitHub');
-      
-    })
+    this.page.title.should.contain('GitHub');
+    
+  })
 ````
 
 <br>
@@ -205,9 +205,9 @@ new require('ultronjs')
   .it("Should find and click the link of UltronJS repository")
   .describe(function() {
       
-      this.page.findElement.by.linkText('masterakos/ultronjs').click();
-      
-    })
+    this.page.findElement.by.linkText('masterakos/ultronjs').click();
+    
+  })
 ````
 
 <br>
@@ -224,14 +224,14 @@ new require('ultronjs')
   .it("Should submit the search form")
   .describe(function() {
       
-      // submit by selecting the form
-      this.$('form').submit();
-      // or by selecting an input inside the form
-      this.$('input[name="q"]').submit();
-      // or by selecting the submit button
-      this.$('button[type="submit"]').submit();
-      
-    })
+    // submit by selecting the form
+    this.$('form').submit();
+    // or by selecting an input inside the form
+    this.$('input[name="q"]').submit();
+    // or by selecting the submit button
+    this.$('button[type="submit"]').submit();
+    
+  })
 ````
 <br>
 `should`
@@ -242,10 +242,10 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should find 4 links to the page")
   .describe(function() {
-      
-      this.$('a').should.count(4);
-      
-    })
+    
+    this.$('a').should.count(4);
+    
+  })
 ````
 <br>
 `haveContent(text)`
@@ -255,7 +255,7 @@ new require('ultronjs')
   .it("Should find the right content in body element")
   .describe(function() {
       
-      this.$('body').should.haveContent(`Browser Automated Testing library`);
-      
-    })
+    this.$('body').should.haveContent(`Browser Automated Testing library`);
+    
+  })
 ````
