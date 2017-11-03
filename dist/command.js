@@ -129,7 +129,7 @@ Command.prototype = {
         break;
       case 'find-element-by-text-and-click':
         return new Promise(function (resolve, reject) {
-          driver.findElement(_seleniumWebdriver2.default.By.partialLinkText(_this.args.text)).then(function (element) {
+          driver.findElement(_seleniumWebdriver2.default.By.linkText(_this.args.text)).then(function (element) {
             element.click().then(resolve);
           }).catch(function () {
             _this.test.logger.assertionFailed('expected to find link with content "' + _this.args.text + '" but not found');

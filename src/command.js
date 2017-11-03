@@ -114,7 +114,7 @@ Command.prototype = {
         break;
       case 'find-element-by-text-and-click':
         return new Promise((resolve, reject) => {
-          driver.findElement(webdriver.By.partialLinkText(this.args.text)).then(element => {
+          driver.findElement(webdriver.By.linkText(this.args.text)).then(element => {
             element.click().then(resolve);
           }).catch(() => {
             this.test.logger.assertionFailed(`expected to find link with content "${this.args.text}" but not found`);
