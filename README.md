@@ -15,23 +15,23 @@ var ultron = new Ultron('chrome'); // open Chrome
 ultron
   .it("should open GitHub via Google")
   .describe(function() {
-    
+
     this.open('http://google.com');
-    
+
     this.wait('input[type="text"]').toAppear();
-    
+
     this.fill('input[type="text"]').with('GitHub');
-    
+
     this.$('input[type="text"]').submit();
-    
+
     this.wait('#ires').toAppear(); // results container
-    
+
     this.click('#ires a[href="https://github.com/"]'); // first result
-    
+
     this.wait.until.titleContains('GitHub');
-    
+
     this.wait.for(1000); // wait for just a sec
-    
+
   })
   .run()
   .then(function() {
@@ -77,13 +77,11 @@ Table of Contents
 new require('ultronjs')
   .it("Should open GitHub")
   .describe(function() {
-    
+
     this.open('http://github.com');
-    
+
   })
 ````
-
-<br>
 #### Wait
 `Test.wait(selector)`
 * ````selector```` {string} - CSS selector of the target element.
@@ -96,49 +94,44 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should wait for the search input")
   .describe(function() {
-    
+
     this.wait('#search-input').toAppear();
-    
+
   })
 ````
-<br>
 `until.titleIs(text)` - Waits until the title matches the given text.
 ##### Example
 ````javascript
 new require('ultronjs')
   .it("Should wait until the page title contains the word GitHub")
   .describe(function() {
-    
+
     this.wait.until.titleIs('GitHub');
-    
+
   })
 ````
-<br>
 `until.titleContains(text)` - Waits until the title of the page contains the given text.
 ##### Example
 ````javascript
 new require('ultronjs')
   .it("Should wait until the page title is GitHub")
   .describe(function() {
-    
+
     this.wait.until.titleContains('GitHub');
-    
+
   })
 ````
-<br>
 `for(milliseconds)` - Waits for the given time in milliseconds.
 ##### Example
 ````javascript
 new require('ultronjs')
   .it("Should wait for 2 seconds")
   .describe(function() {
-    
+
     this.wait.for(2000);
-    
+
   })
 ````
-
-<br>
 #### Fill
 `Test.fill(selector)`
 * ````selector```` {string} - CSS selector of the target element.
@@ -151,13 +144,11 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should fill GitHub search input with `UltronJS`")
   .describe(function() {
-    
+
     this.fill('input[name="q"]').with('UltronJS');
-    
+
   })
 ````
-
-<br>
 #### Click
 `Test.Click(selector)`
 * ````selector```` {string} - CSS selector of the target element.
@@ -167,13 +158,11 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should click link to GitHub")
   .describe(function() {
-      
+
     this.click('#ires a[href="https://github.com/"]');
-    
+
   })
 ````
-
-<br>
 #### Page
 `Test.page.title`
 
@@ -186,13 +175,11 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should find the word GitHub in page's title")
   .describe(function() {
-      
+
     this.page.title.should.contain('GitHub');
-    
+
   })
 ````
-
-<br>
 `findElement.by.linkText(text)`
 * text {string}
 
@@ -204,13 +191,11 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should find and click the link of UltronJS repository")
   .describe(function() {
-      
+
     this.page.findElement.by.linkText('masterakos/ultronjs').click();
-    
+
   })
 ````
-
-<br>
 #### $
 `Test.$(selector)`
 * selector {string} - Css selector of the target element.
@@ -223,17 +208,16 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should submit the search form")
   .describe(function() {
-      
+
     // submit by selecting the form
     this.$('form').submit();
     // or by selecting an input inside the form
     this.$('input[name="q"]').submit();
     // or by selecting the submit button
     this.$('button[type="submit"]').submit();
-    
+
   })
 ````
-<br>
 `should`
 ##### methods
 `count(number)`
@@ -242,20 +226,19 @@ new require('ultronjs')
 new require('ultronjs')
   .it("Should find 4 links to the page")
   .describe(function() {
-    
+
     this.$('a').should.count(4);
-    
+
   })
 ````
-<br>
 `haveContent(text)`
 ##### Example
 ````javascript
 new require('ultronjs')
   .it("Should find the right content in body element")
   .describe(function() {
-      
+
     this.$('body').should.haveContent(`Browser Automated Testing library`);
-    
+
   })
 ````
